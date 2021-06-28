@@ -1,0 +1,66 @@
+'''
+Задание 2. Написать программу сложения и умножения двух шестнадцатеричных чисел.
+При этом каждое число представляется как массив, элементы которого это цифры числа.
+Например, пользователь ввёл A2 и C4F. Сохранить их как [‘A’, ‘2’] и [‘C’, ‘4’, ‘F’] соответственно.
+Сумма чисел из примера: [‘C’, ‘F’, ‘1’], произведение - [‘7’, ‘C’, ‘9’, ‘F’, ‘E’].
+'''
+
+hex_dict = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+            'a': 10, 'b': 11, 'c': 12, 'd': 13, 'e': 14, 'f': 15}
+
+dec_dict = {0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9',
+            10: 'a', 11: 'b', 12: 'c', 13: 'd', 14: 'e', 15: 'f'}
+
+def hex_dec(number):  ##Функция перевода чисел из 16-й в 10-ю систему.
+    n = len(number)
+    hex_sum = 0
+    for i in number:
+        mult_result = hex_dict[i] * (16 ** (n - 1))
+        n -= 1
+        hex_sum += mult_result
+    return hex_sum
+
+def number_list(user_input): ## Функция перевода вводимых чисел в список
+    list_jf_numbers = []
+    for i in user_input:
+        list_jf_numbers.append(i.upper())
+    return list_jf_numbers
+
+def dec_hex(number): ## функция перевода чисел из 10-й в 16-ю систему
+    ls_number = [] ## список для вывода числа
+    div_remain = number % 16 ## остаток от деления
+    ls_number.append(dec_dict[div_remain].upper())
+    div_result = number // 16 ## результат от деления числа на 16
+    while True: ## наполнение списка числами для перевода в 16-ю систему из 10-й
+        if div_result < 16:
+            ls_number.append(dec_dict[div_result].upper())
+            break
+        else:
+            div_remain = div_result % 16
+            div_result = div_result // 16
+            ls_number.append(dec_dict[div_remain].upper())
+    ls_number.reverse()
+    return ls_number
+
+user_number_1 = input('Введите первое число в 16й системе: ').lower()
+user_number_2 = input('Введите второе число в 16й системе: ').lower()
+
+a = hex_dec(user_number_1) ## первое число в 10-й системе
+b = hex_dec(user_number_2) ## второе число в 10-й системе
+
+oper_result = 0
+
+operation_num = input('Для сложения чисел нажмите "+", для умножения "*": ')
+
+if operation_num == '+':
+    oper_result = a + b
+else:
+    oper_result = a * b
+
+oper_result_list = dec_hex(oper_result) ## полученный результат перевожу в 16-ю систему
+
+## Записываю числа в виде списков
+number_1_list = number_list(user_number_1)
+number_2_list = number_list(user_number_2)
+
+print(f'Результат операции числа {number_1_list} и числа {number_2_list}: {oper_result_list}')
