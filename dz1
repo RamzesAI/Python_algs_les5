@@ -1,0 +1,33 @@
+'''
+Задание 1. Пользователь вводит данные о количестве предприятий, их наименования и прибыль за 4 квартала
+(т.е. 4 отдельных числа) для каждого предприятия..
+Программа должна определить среднюю прибыль (за год для всех предприятий) и вывести
+наименования предприятий, чья прибыль выше среднего и отдельно вывести наименования предприятий,
+чья прибыль ниже среднего.
+'''
+number_of_firms = int(input('Укажите количество предприятий: '))
+firms = {}
+number_of_quarter = 4
+total_income = 0        ## общий доход всех компаний
+av_total_income = 0     ## общий средний доход всех компаний
+
+for i in range(number_of_firms):
+    f_name = input(f'Введите название {i + 1} предприятия: ')
+    f_income = 0
+    for j in range(number_of_quarter):
+        q_sum = int(input(f'Прибыль за {j + 1} квартал: '))
+        f_income += q_sum
+    total_income += f_income
+    firms[f_name] = f_income
+av_total_income = total_income / number_of_firms
+print(f'Средняя прибыль всех компаний за год: {av_total_income}')
+
+max_ls = []
+min_ls = []
+for i in firms:
+    if firms[i] > av_total_income:
+        max_ls.append(i)
+    else:
+        min_ls.append(i)
+print(f'Компании с прибылью выше среднего: {max_ls}')
+print(f'Компании с прибылью ниже среднего: {min_ls}')
